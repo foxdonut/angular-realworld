@@ -1,0 +1,62 @@
+<!--
+import { ArticleList } from "../articleList"
+import { PopularTags } from "../popularTags"
+
+const filter = getArticlesFilter(state.route.current)
+
+const content = filter.tag
+  ? { globalFeed: false }
+  : { globalFeed: !filter.feed }
+-->
+
+<div class="home-page">
+  <div *ngIf="!user" class="banner">
+    <div class="container">
+      <h1 class="logo-font">conduit</h1>
+      <p>
+        A place to share your
+        <a href="https://meiosis.js.org" target="_blank"
+           style="color: #fff; text-decoration: underline">
+          Meiosis
+        </a>
+        knowledge.
+      </p>
+    </div>
+  </div>
+
+  <div class="container page">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="feed-toggle">
+          <ul class="nav nav-pills outline-active">
+            <li *ngIf="user" class="nav-item">
+              <!-- router.toPath([Route.Home({ feed: true })]), active = filter.feed -->
+              <a class="nav-link" href="#" class="">
+                Your Feed
+              </a>
+            </li>
+            <li class="nav-item">
+              <!-- router.toPath([Route.Home({ feed: null })]), { active: content.globalFeed } -->
+              <a class="nav-link" href="#" class="">
+                Global Feed
+              </a>
+            </li>
+            <!-- FIXME: filter && filter.tag -->
+            <li *ngIf="filter && filter.tag" class="nav-item">
+              <a class="nav-link active">
+                <i class="ion-pound"></i>
+                {{ filter.tag }}
+              </a>
+            </li>
+          </ul>
+        </div>
+        <app-article-list></app-article-list>
+      </div>
+      <div class="col-md-3">
+        <div class="sidebar">
+          <app-popular-tags></app-popular-tags>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

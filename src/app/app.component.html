@@ -1,0 +1,66 @@
+<div>
+
+  <!-- const active = pageId => ({ className: { active: routing.localSegment.id === pageId } }) -->
+
+  <nav class="nav navbar navbar-light">
+    <div class="container">
+      <a class="navbar-brand" href="#">conduit</a> <!-- router.toPath(Route.Home()) -->
+      <a href="https://github.com/foxdonut/meiosis-examples/tree/master/examples/realworld"
+        target="_blank">
+        source code
+      </a>
+      <ul class="nav navbar-nav pull-xs-right">
+        <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+          <a class="nav-link" routerLink="/">Home</a>
+        </li>
+
+        <ng-template [ngIf]="user">
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/editor">
+              <i class="ion-compose"></i>
+              New Article
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/settings">
+              <i class="ion-gear-a"></i>
+              Settings
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active"> <!-- active("Profile || ProfileFavorites") && state.user.username === state.profile.username -->
+            <a class="nav-link" href="#"> <!-- router.toPath(Route.Profile({ username: state.user.username }) -->
+              {{ user.username }}
+            </a>
+          </li>
+        </ng-template>
+
+        <ng-template [ngIf]="!user">
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/login">
+              Sign in
+            </a>
+          </li>
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" routerLink="/register">
+              Sign up
+            </a>
+          </li>
+        </ng-template>
+      </ul>
+    </div>
+  </nav>
+
+  <router-outlet></router-outlet>
+
+  <footer>
+    <div class="container">
+      <a class="logo-font" routerLink="/">conduit</a>
+      <span class="attribution">
+        An interactive learning project from
+        <a href="https://thinkster.io">Thinkster</a>
+        <span>Code &amp; design licensed under MIT.</span>
+      </span>
+    </div>
+  </footer>
+
+</div>

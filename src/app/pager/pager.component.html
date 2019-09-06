@@ -1,0 +1,13 @@
+<nav>
+  <ul class="pagination">
+    <li class="page-item"> <!-- active: pageNumber === currentPageNumber -->
+      <!-- router.toPath(routing.sameRoute(O.a({}, params, { offset: (pageNumber - 1) * filter.limit }))) -->
+      <a class="page-link" href="#">1</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="#">2</a>
+    </li>
+  </ul>
+  <div>Displaying 1 - 2 of 2</div>
+  <div *ngIf="false">No articles here... yet.</div>
+</nav>

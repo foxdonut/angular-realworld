@@ -1,0 +1,41 @@
+<!--
+const username = article.author.username
+-->
+<div *ngIf="loading || !articles; else loaded" class="article-preview">Loading articles...</div>
+<ng-template #loaded>
+  <div *ngFor="let article of articles" class="article-preview">
+    <div class="article-meta">
+      <!-- router.toPath(Route.Profile({ username: article.author.username -->
+      <a href="#"><img src="article.author.image || defaultImage"></a>
+      <div class="info">
+        <!-- { href: router.toPath(Route.Profile({ username: article.author.username })) }, -->
+        <a class="author" href="#">{{ username }}</a>
+        <span class="date">{{ article.createdAt | date }}</span>
+      </div>
+      <div class="pull-xs-right">
+        <button
+          class="btn btn-sm"
+          ngClass="{ 'btn-primary': article.favorited, 'btn-outline-primary': !article.favorited }"
+          (click)="onToggleArticleFavorite()">
+          <i class="ion-heart"></i>
+          <span> {{ article.favoritesCount }}</span>
+        </button>
+      </div>
+    </div>
+    <div class="preview-link">
+      <!-- router.toPath(Route.ArticleDetail({ slug: article.slug })) -->
+      <a class="preview-link" href="#">
+        <h1>{{ article.title }}</h1>
+        <p>{{ article.description }}</p>
+        <span>Read more...</span>
+      </a>
+      <ul class="tag-list">
+        <li *ngFor="let tag of tags" class="tag-default tag-pill tag-outline">
+          <!-- href: router.toPath(Route.Home({ tag })) }, tag -->
+          <a href="#">{{ tag }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <app-pager></app-pager>
+</ng-template>
