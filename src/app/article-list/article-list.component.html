@@ -6,7 +6,7 @@ const username = article.author.username
   <div *ngFor="let article of articles" class="article-preview">
     <div class="article-meta">
       <!-- router.toPath(Route.Profile({ username: article.author.username -->
-      <a href="#"><img src="article.author.image || defaultImage"></a>
+      <a href="#"><img [src]="article.author.image || defaultImage"></a>
       <div class="info">
         <!-- { href: router.toPath(Route.Profile({ username: article.author.username })) }, -->
         <a class="author" href="#">{{ username }}</a>
@@ -37,5 +37,5 @@ const username = article.author.username
       </ul>
     </div>
   </div>
-  <app-pager></app-pager>
+  <app-pager [articlesCount]="articlesCount"></app-pager>
 </ng-template>
