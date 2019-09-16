@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  API_ROOT = 'https://conduit.productionready.io/api'
+  API_ROOT = 'https://conduit.productionready.io/api';
   // API_ROOT = 'http://localhost:4000/api'
 
   constructor(private http: HttpClient) { }
@@ -106,28 +106,27 @@ export class ApiService {
     return this.http.delete(this.API_ROOT + `/articles/${slug}/favorite`);
   }
 
-  register(body: any): any {
+  register(body: any): Observable<any> {
     return this.http.post(this.API_ROOT + `/users`, body);
   }
 
-  login(body: any): any {
+  login(body: any): Observable<any> {
     return this.http.post(this.API_ROOT + `/users/login`, body);
   }
 
-  /*
-  export const credentialsApi = {
-    getUser: () =>
-      new Promise((resolve, reject) => {
-        if (getToken()) {
-          return request('/user', authHeader())
-            .then(user => resolve(user.user))
-            .catch(reject)
-        } else {
-          resolve(null)
-        }
-      })
+  getUser() {
+    return new Promise((resolve, reject) => {
+      if (this.getToken()) {
+        return this.http.get(this.API_ROOT + '/user', this.authHeader())
+          .subscribe(
+            (user: any) => resolve(user.user),
+            reject
+          );
+      } else {
+        resolve(null);
+      }
+    });
   }
-  */
 
   getPopularTags(): Observable<any> {
     return this.http.get(this.API_ROOT + '/tags');

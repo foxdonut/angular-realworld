@@ -9,13 +9,13 @@ const username = article.author.username
       <a href="#"><img [src]="article.author.image || defaultImage"></a>
       <div class="info">
         <!-- { href: router.toPath(Route.Profile({ username: article.author.username })) }, -->
-        <a class="author" href="#">{{ username }}</a>
+        <a class="author" href="#">{{ article.author.username}}</a>
         <span class="date">{{ article.createdAt | date }}</span>
       </div>
       <div class="pull-xs-right">
         <button
           class="btn btn-sm"
-          ngClass="{ 'btn-primary': article.favorited, 'btn-outline-primary': !article.favorited }"
+          [ngClass]="{ 'btn-primary': article.favorited, 'btn-outline-primary': !article.favorited }"
           (click)="onToggleArticleFavorite()">
           <i class="ion-heart"></i>
           <span> {{ article.favoritesCount }}</span>
@@ -30,7 +30,7 @@ const username = article.author.username
         <span>Read more...</span>
       </a>
       <ul class="tag-list">
-        <li *ngFor="let tag of tags" class="tag-default tag-pill tag-outline">
+        <li *ngFor="let tag of article.tagList" class="tag-default tag-pill tag-outline">
           <!-- href: router.toPath(Route.Home({ tag })) }, tag -->
           <a href="#">{{ tag }}</a>
         </li>

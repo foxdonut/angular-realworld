@@ -11,6 +11,7 @@ export class CredentialsComponent implements OnInit {
   @Input() options: any = {};
 
   credentialsForm: FormGroup;
+  errors = [];
 
   constructor(private api: ApiService) { }
 
@@ -26,13 +27,20 @@ export class CredentialsComponent implements OnInit {
     const form = this.credentialsForm.value;
     const fields = ['email', 'password'].concat(this.options.method === 'register' ? ['username'] : []);
     const params = fields.reduce((result, field) => {
-      result[field] = form.field;
+      result[field] = form[field];
       return result;
     }, {});
-    this.api[this.options.method](params).subscribe(
+    this.api[this.options.method]({ user: params }).subscribe(
       (response: any) => {
+        const user = response.user;
+        this.api.setToken(user.token);
+        // update([navigateTo(Route.Home()), { user }])
       },
-      (err: any) => {
+      (response: any) => {
+        const errors = response.error.errors;
+        this.errors = Object.keys(errors).map(key =>
+          key + ' ' + errors[key].join(', ')
+        );
       }
     );
     /*
