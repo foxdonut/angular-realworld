@@ -106,12 +106,16 @@ export class ApiService {
     return this.http.delete(this.API_ROOT + `/articles/${slug}/favorite`);
   }
 
+  register(body: any): any {
+    return this.http.post(this.API_ROOT + `/users`, body);
+  }
+
+  login(body: any): any {
+    return this.http.post(this.API_ROOT + `/users/login`, body);
+  }
+
   /*
   export const credentialsApi = {
-    register: body => request('/users', { body, method: 'POST' }),
-
-    login: body => request('/users/login', { body, method: 'POST' }),
-
     getUser: () =>
       new Promise((resolve, reject) => {
         if (getToken()) {

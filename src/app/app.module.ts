@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -15,6 +16,7 @@ import { ArticleCreateComponent } from './article-create/article-create.componen
 import { ArticleEditComponent } from './article-edit/article-edit.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites.component';
+import { CredentialsComponent } from './credentials/credentials.component';
 
 @NgModule({
   declarations: [
@@ -29,12 +31,14 @@ import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites
     ArticleCreateComponent,
     ArticleEditComponent,
     SettingsComponent,
-    ProfileFavoritesComponent
+    ProfileFavoritesComponent,
+    CredentialsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
