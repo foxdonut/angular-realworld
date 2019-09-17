@@ -66,7 +66,7 @@ export class ApiService {
   */
 
   getArticles(params: any): Observable<any> {
-    return this.http.get(this.API_ROOT + '/articles', { params: Object.assign({ limit: 10}, params) });
+    return this.http.get(this.API_ROOT + '/articles', { params });
   }
 
   getFeed(params: any): Observable<any> {

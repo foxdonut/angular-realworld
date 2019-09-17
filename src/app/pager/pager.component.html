@@ -1,13 +1,11 @@
 <nav>
   <ul class="pagination">
-    <li class="page-item"> <!-- active: pageNumber === currentPageNumber -->
-      <!-- router.toPath(routing.sameRoute(O.a({}, params, { offset: (pageNumber - 1) * filter.limit }))) -->
-      <a class="page-link" href="#">1</a>
-    </li>
-    <li class="page-item">
-      <a class="page-link" href="#">2</a>
+    <li *ngFor="let pageNumber of pageList" class="page-item"
+        [ngClass]="{ active: (pageNumber === currentPageNumber) }">
+      <a class="page-link" [routerLink]="['.']"
+         [queryParams]="{ offset: (pageNumber - 1) * filter.limit, tag: filter.tag }">{{ pageNumber }}</a>
     </li>
   </ul>
-  <div>Displaying 1 - 2 of {{ articlesCount }}</div>
+  <div>Displaying {{ from }} - {{ to }} of {{ articlesCount }}</div>
   <div *ngIf="articlesCount === 0">No articles here... yet.</div>
 </nav>

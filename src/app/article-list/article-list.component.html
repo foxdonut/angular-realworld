@@ -31,8 +31,7 @@ const username = article.author.username
       </a>
       <ul class="tag-list">
         <li *ngFor="let tag of article.tagList" class="tag-default tag-pill tag-outline">
-          <!-- href: router.toPath(Route.Home({ tag })) }, tag -->
-          <a href="#">{{ tag }}</a>
+          <a [routerLink]="['.']" [queryParams]="{ tag: tag }">{{ tag }}</a>
         </li>
       </ul>
     </div>
