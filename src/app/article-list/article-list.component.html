@@ -5,18 +5,18 @@ const username = article.author.username
 <ng-template #loaded>
   <div *ngFor="let article of articles" class="article-preview">
     <div class="article-meta">
-      <!-- router.toPath(Route.Profile({ username: article.author.username -->
-      <a href="#"><img [src]="article.author.image || defaultImage"></a>
+      <a [routerLink]="['/profile', article.author.username]">
+        <img [src]="article.author.image || defaultImage">
+      </a>
       <div class="info">
-        <!-- { href: router.toPath(Route.Profile({ username: article.author.username })) }, -->
-        <a class="author" href="#">{{ article.author.username}}</a>
+        <a class="author" [routerLink]="['/profile', article.author.username]">{{ article.author.username}}</a>
         <span class="date">{{ article.createdAt | date }}</span>
       </div>
       <div class="pull-xs-right">
         <button
           class="btn btn-sm"
           [ngClass]="{ 'btn-primary': article.favorited, 'btn-outline-primary': !article.favorited }"
-          (click)="onToggleArticleFavorite()">
+          (click)="onToggleArticleFavorite(article)">
           <i class="ion-heart"></i>
           <span> {{ article.favoritesCount }}</span>
         </button>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Profile } from '../model/profile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -132,10 +133,11 @@ export class ApiService {
     return this.http.get(this.API_ROOT + '/tags');
   }
 
+  getProfile(username: string): Observable<Profile> {
+    return this.http.get(this.API_ROOT + `/profiles/${username}`) as Observable<Profile>;
+  }
   /*
   export const profileApi = {
-    get: username => request(`/profiles/${username}`),
-
     update: body => request('/user', { body, method: 'PUT' }),
 
     follow: username => request(`/profiles/${username}/follow`, { method: 'POST' }),

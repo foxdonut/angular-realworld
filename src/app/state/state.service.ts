@@ -23,4 +23,8 @@ export class StateService {
   updateArticleFilter(update: any) {
     this.articleFilter.next(mergerino({}, this.articleFilter.getValue(), update));
   }
+
+  isUserLoggedIn(): boolean {
+    return false;
+  }
 }

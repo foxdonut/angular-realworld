@@ -15,8 +15,8 @@ import { ArticleDetailComponent } from './article-detail/article-detail.componen
 import { ArticleCreateComponent } from './article-create/article-create.component';
 import { ArticleEditComponent } from './article-edit/article-edit.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ProfileFavoritesComponent } from './profile-favorites/profile-favorites.component';
 import { CredentialsComponent } from './credentials/credentials.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -31,8 +31,8 @@ import { CredentialsComponent } from './credentials/credentials.component';
     ArticleCreateComponent,
     ArticleEditComponent,
     SettingsComponent,
-    ProfileFavoritesComponent,
-    CredentialsComponent
+    CredentialsComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
