@@ -16,7 +16,9 @@ export class HomeComponent implements OnInit {
       const articleFilterUpdate = {
         tag: queryParams.tag,
         feed: queryParams.feed,
-        offset: queryParams.offset ? parseInt(queryParams.offset, 10) : undefined
+        offset: queryParams.offset ? parseInt(queryParams.offset, 10) : undefined,
+        favorited: undefined,
+        author: undefined
       };
 
       this.state.updateArticleFilter(articleFilterUpdate);

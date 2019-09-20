@@ -20,7 +20,7 @@ export class StateService {
     return this.articleFilter.getValue();
   }
 
-  updateArticleFilter(update: any) {
+  updateArticleFilter(update: ArticleFilter) {
     this.articleFilter.next(mergerino({}, this.articleFilter.getValue(), update));
   }
 

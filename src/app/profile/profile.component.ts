@@ -9,7 +9,6 @@ import { ApiService } from '../api/api.service';
   styles: []
 })
 export class ProfileComponent implements OnInit {
-  isFavorites: boolean;
   loadingProfile = true;
   username: string;
   profile: Profile;
@@ -18,21 +17,14 @@ export class ProfileComponent implements OnInit {
   constructor(private route: ActivatedRoute, private api: ApiService) { }
 
   ngOnInit() {
-    console.log('ngOnInit');
-    this.route.data.subscribe((data: Params) => {
-      this.isFavorites = data.isFavorites;
-    });
-
     this.route.params.subscribe((params: Params) => {
-      if (params.username !== this.username) {
-        this.loadingProfile = true;
-        this.username = params.username;
+      this.loadingProfile = true;
+      this.username = params.username;
 
-        this.api.getProfile(this.username).subscribe((profile: Profile) => {
-          this.profile = profile;
-          this.loadingProfile = false;
-        });
-      }
+      this.api.getProfile(this.username).subscribe((profile: Profile) => {
+        this.profile = profile;
+        this.loadingProfile = false;
+      });
     });
   }
 

@@ -5,14 +5,18 @@ import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { ArticleDetailComponent } from './article-detail/article-detail.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileFavoritesComponent } from './profile/profile-favorites/profile-favorites.component';
+import { ProfileAuthorComponent } from './profile/profile-author/profile-author.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'article/:slug', component: ArticleDetailComponent },
-  { path: 'profile/:username', component: ProfileComponent, data: { isFavorites: false } },
-  { path: 'profile/:username/favorites', component: ProfileComponent, data: { isFavorites: true } }
+  { path: 'profile/:username', component: ProfileComponent, children: [
+    { path: '', component: ProfileAuthorComponent },
+    { path: 'favorites', component: ProfileFavoritesComponent }
+  ] }
 ];
 
 @NgModule({

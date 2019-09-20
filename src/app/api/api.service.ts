@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Profile } from '../model/profile.model';
+import { ArticleList } from '../model/article-list.model';
 
 @Injectable({
   providedIn: 'root'
@@ -66,8 +67,8 @@ export class ApiService {
   }
   */
 
-  getArticles(params: any): Observable<any> {
-    return this.http.get(this.API_ROOT + '/articles', { params });
+  getArticles(params: any): Observable<ArticleList> {
+    return this.http.get<ArticleList>(this.API_ROOT + '/articles', { params });
   }
 
   getFeed(params: any): Observable<any> {

@@ -6,6 +6,6 @@
          [queryParams]="{ offset: (pageNumber - 1) * filter.limit, tag: filter.tag }">{{ pageNumber }}</a>
     </li>
   </ul>
-  <div>Displaying {{ from }} - {{ to }} of {{ articlesCount }}</div>
+  <div *ngIf="articlesCount > 0">Displaying {{ from }} - {{ to }} of {{ articlesCount }}</div>
   <div *ngIf="articlesCount === 0">No articles here... yet.</div>
 </nav>
