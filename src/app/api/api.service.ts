@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Profile } from '../model/profile.model';
 import { ArticleList } from '../model/article-list.model';
+import { User } from '../model/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,11 +29,7 @@ export class ApiService {
 
   private authHeader(): any {
     return this.getToken()
-      ? {
-          headers: {
-            Authorization: 'Token ' + this.getToken()
-          }
-        }
+      ? { Authorization: 'Token ' + this.getToken() }
       : {};
   }
 
@@ -68,11 +65,8 @@ export class ApiService {
   */
 
   getArticles(params: any): Observable<ArticleList> {
-    return this.http.get<ArticleList>(this.API_ROOT + '/articles', { params });
-  }
-
-  getFeed(params: any): Observable<any> {
-    return this.http.get(this.API_ROOT + '/articles/feed', params);
+    const uri = '/articles' + (params.feed ? '/feed' : '');
+    return this.http.get<ArticleList>(this.API_ROOT + uri, { params, headers: this.authHeader() });
   }
 
   getArticle(slug: string): Observable<any> {
@@ -116,10 +110,10 @@ export class ApiService {
     return this.http.post(this.API_ROOT + `/users/login`, body);
   }
 
-  getUser() {
-    return new Promise((resolve, reject) => {
+  getUser(): Promise<User> {
+    return new Promise<User>((resolve, reject) => {
       if (this.getToken()) {
-        return this.http.get(this.API_ROOT + '/user', this.authHeader())
+        return this.http.get(this.API_ROOT + '/user', { headers: this.authHeader() })
           .subscribe(
             (user: any) => resolve(user.user),
             reject

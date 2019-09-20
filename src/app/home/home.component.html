@@ -1,14 +1,3 @@
-<!--
-import { ArticleList } from "../articleList"
-import { PopularTags } from "../popularTags"
-
-const filter = getArticlesFilter(state.route.current)
-
-const content = filter.tag
-  ? { globalFeed: false }
-  : { globalFeed: !filter.feed }
--->
-
 <div class="home-page">
   <div *ngIf="!user" class="banner">
     <div class="container">
@@ -28,14 +17,14 @@ const content = filter.tag
         <div class="feed-toggle">
           <ul class="nav nav-pills outline-active">
             <li *ngIf="user" class="nav-item">
-              <!-- router.toPath([Route.Home({ feed: true })]), active = filter.feed -->
-              <a class="nav-link" href="#" class="">
+              <a class="nav-link" [ngClass]="{ active: getFilterFeed() }"
+                 [routerLink]="['.']" [queryParams]="{ feed: true }">
                 Your Feed
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{ active: !getFilterTag() }"
-                 [routerLink]="['.']" [queryParams]="{ tag: null }">
+              <a class="nav-link" [ngClass]="{ active: !getFilterTag() && !getFilterFeed() }"
+                 [routerLink]="['.']">
                 Global Feed
               </a>
             </li>

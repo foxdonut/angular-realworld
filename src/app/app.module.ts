@@ -20,6 +20,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ProfileFavoritesComponent } from './profile/profile-favorites/profile-favorites.component';
 import { ProfileAuthorComponent } from './profile/profile-author/profile-author.component';
 import { ProfileContentComponent } from './profile/profile-content/profile-content.component';
+import { WithUserComponent } from './with-user/with-user.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ProfileContentComponent } from './profile/profile-content/profile-conte
     ProfileComponent,
     ProfileFavoritesComponent,
     ProfileAuthorComponent,
-    ProfileContentComponent
+    ProfileContentComponent,
+    WithUserComponent
   ],
   imports: [
     BrowserModule,

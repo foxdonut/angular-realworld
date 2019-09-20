@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ApiService } from '../api/api.service';
+import { StateService } from '../state/state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-credentials',
@@ -13,7 +15,7 @@ export class CredentialsComponent implements OnInit {
   credentialsForm: FormGroup;
   errors = [];
 
-  constructor(private api: ApiService) { }
+  constructor(private api: ApiService, private state: StateService, private router: Router) { }
 
   ngOnInit() {
     this.credentialsForm = new FormGroup({
@@ -32,9 +34,9 @@ export class CredentialsComponent implements OnInit {
     }, {});
     this.api[this.options.method]({ user: params }).subscribe(
       (response: any) => {
-        const user = response.user;
-        this.api.setToken(user.token);
-        // update([navigateTo(Route.Home()), { user }])
+        this.state.user.next(response.user);
+        this.api.setToken(response.user.token);
+        this.router.navigate(['/']);
       },
       (response: any) => {
         const errors = response.error.errors;
@@ -43,13 +45,5 @@ export class CredentialsComponent implements OnInit {
         );
       }
     );
-    /*
-    credentialsApi[method]({ user: pick(fields, state[method]) })
-      .then(({ user }) => {
-        setToken(user.token)
-        update([navigateTo(Route.Home()), { user }])
-      })
-      .catch(err => update({ [method]: { errors: err.response && err.response.errors } }))
-    */
   }
 }

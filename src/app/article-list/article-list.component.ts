@@ -13,6 +13,8 @@ import { Subscription } from 'rxjs';
   styles: []
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
+  // FIXME: duplicate code
+  defaultImage = 'https://static.productionready.io/images/smiley-cyrus.jpg';
   articleFilterSubscription: Subscription;
 
   loading = true;
@@ -39,7 +41,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   onToggleArticleFavorite(article: Article): void {
-    if (this.state.isUserLoggedIn()) {
+    if (this.state.user) {
     } else {
       this.router.navigate(['/login']);
     }

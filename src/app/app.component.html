@@ -1,7 +1,4 @@
 <div>
-
-  <!-- const active = pageId => ({ className: { active: routing.localSegment.id === pageId } }) -->
-
   <nav class="nav navbar navbar-light">
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">conduit</a>
@@ -27,8 +24,8 @@
               Settings
             </a>
           </li>
-          <li class="nav-item" routerLinkActive="active"> <!-- active("Profile || ProfileFavorites") && state.user.username === state.profile.username -->
-            <a class="nav-link" href="#"> <!-- router.toPath(Route.Profile({ username: state.user.username }) -->
+          <li class="nav-item" routerLinkActive="active">
+            <a class="nav-link" [routerLink]="['/profile', user.username]">
               {{ user.username }}
             </a>
           </li>
@@ -62,5 +59,4 @@
       </span>
     </div>
   </footer>
-
 </div>

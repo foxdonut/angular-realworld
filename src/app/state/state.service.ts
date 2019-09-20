@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import mergerino from 'mergerino';
 import { ArticleFilter } from '../model/article-filter.model';
+import { User } from '../model/user.model';
+import { ApiService } from '../api/api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +13,16 @@ export class StateService {
     limit: 10,
     offset: 0,
     tag: '',
-    feed: ''
+    feed: false
   });
 
-  constructor() { }
+  user = new BehaviorSubject<User>(null);
+
+  constructor(private api: ApiService) {
+    this.api.getUser().then((user: User) => {
+      this.user.next(user);
+    });
+  }
 
   getArticleFilter() {
     return this.articleFilter.getValue();
@@ -22,9 +30,5 @@ export class StateService {
 
   updateArticleFilter(update: ArticleFilter) {
     this.articleFilter.next(mergerino({}, this.articleFilter.getValue(), update));
-  }
-
-  isUserLoggedIn(): boolean {
-    return false;
   }
 }

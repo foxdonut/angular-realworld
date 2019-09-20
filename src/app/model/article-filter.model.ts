@@ -1,7 +1,7 @@
 export interface ArticleFilter {
   limit?: number;
   offset?: number;
-  feed?: string;
+  feed?: boolean;
   tag?: string;
   author?: string;
   favorited?: string;
