@@ -21,8 +21,6 @@ export class ProfileComponent extends WithUserComponent implements OnInit {
   }
 
   ngOnInit() {
-    super.ngOnInit();
-
     this.route.params.subscribe((params: Params) => {
       this.loadingProfile = true;
       this.username = params.username;
@@ -35,6 +33,7 @@ export class ProfileComponent extends WithUserComponent implements OnInit {
   }
 
   isCurrentUser() {
-    return this.user && this.user.username === this.username;
+    const user = this.getUser();
+    return user && user.username === this.username;
   }
 }

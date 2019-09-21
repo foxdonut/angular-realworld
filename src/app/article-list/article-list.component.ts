@@ -6,13 +6,14 @@ import { ArticleList } from '../model/article-list.model';
 import { Article } from '../model/article.model';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { WithUserComponent } from '../with-user/with-user.component';
 
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
   styles: []
 })
-export class ArticleListComponent implements OnInit, OnDestroy {
+export class ArticleListComponent extends WithUserComponent implements OnInit, OnDestroy {
   // FIXME: duplicate code
   defaultImage = 'https://static.productionready.io/images/smiley-cyrus.jpg';
   articleFilterSubscription: Subscription;
@@ -21,7 +22,9 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   articles: any = [];
   articlesCount = 0;
 
-  constructor(private state: StateService, private api: ApiService, private router: Router) { }
+  constructor(state: StateService, private api: ApiService, private router: Router) {
+    super(state);
+  }
 
   ngOnInit() {
     this.articleFilterSubscription = this.state.articleFilter.subscribe((filter: ArticleFilter) => {
@@ -41,7 +44,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   }
 
   onToggleArticleFavorite(article: Article): void {
-    if (this.state.user) {
+    if (this.getUser()) {
     } else {
       this.router.navigate(['/login']);
     }

@@ -1,5 +1,5 @@
 <div class="home-page">
-  <div *ngIf="!user" class="banner">
+  <div *ngIf="!getUser()" class="banner">
     <div class="container">
       <h1 class="logo-font">conduit</h1>
       <p>
@@ -16,7 +16,7 @@
       <div class="col-md-9">
         <div class="feed-toggle">
           <ul class="nav nav-pills outline-active">
-            <li *ngIf="user" class="nav-item">
+            <li *ngIf="getUser()" class="nav-item">
               <a class="nav-link" [ngClass]="{ active: getFilterFeed() }"
                  [routerLink]="['.']" [queryParams]="{ feed: true }">
                 Your Feed

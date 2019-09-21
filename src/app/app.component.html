@@ -11,7 +11,7 @@
           <a class="nav-link" routerLink="/">Home</a>
         </li>
 
-        <ng-template [ngIf]="user">
+        <ng-template [ngIf]="getUser()">
           <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="/editor">
               <i class="ion-compose"></i>
@@ -25,13 +25,13 @@
             </a>
           </li>
           <li class="nav-item" routerLinkActive="active">
-            <a class="nav-link" [routerLink]="['/profile', user.username]">
-              {{ user.username }}
+            <a class="nav-link" [routerLink]="['/profile', getUser().username]">
+              {{ getUser().username }}
             </a>
           </li>
         </ng-template>
 
-        <ng-template [ngIf]="!user">
+        <ng-template [ngIf]="!getUser()">
           <li class="nav-item" routerLinkActive="active">
             <a class="nav-link" routerLink="/login">
               Sign in

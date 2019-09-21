@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -21,6 +21,8 @@ import { ProfileFavoritesComponent } from './profile/profile-favorites/profile-f
 import { ProfileAuthorComponent } from './profile/profile-author/profile-author.component';
 import { ProfileContentComponent } from './profile/profile-content/profile-content.component';
 import { WithUserComponent } from './with-user/with-user.component';
+import { init } from './initial/initial';
+import { StateService } from './state/state.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { WithUserComponent } from './with-user/with-user.component';
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    { provide: APP_INITIALIZER, multi: true, useFactory: init, deps: [StateService] }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

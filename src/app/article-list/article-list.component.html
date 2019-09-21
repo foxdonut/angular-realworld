@@ -1,6 +1,3 @@
-<!--
-const username = article.author.username
--->
 <div *ngIf="loading || !articles; else loaded" class="article-preview">Loading articles...</div>
 <ng-template #loaded>
   <div *ngFor="let article of articles" class="article-preview">

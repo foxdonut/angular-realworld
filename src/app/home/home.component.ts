@@ -1,25 +1,19 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { StateService } from '../state/state.service';
 import { ActivatedRoute, Params } from '@angular/router';
-import { User } from '../model/user.model';
-import { Subscription } from 'rxjs';
+import { WithUserComponent } from '../with-user/with-user.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styles: []
 })
-export class HomeComponent implements OnInit, OnDestroy {
-  userSubscription: Subscription;
-  user: User;
-
-  constructor(private state: StateService, private route: ActivatedRoute) { }
+export class HomeComponent extends WithUserComponent implements OnInit {
+  constructor(state: StateService, private route: ActivatedRoute) {
+    super(state);
+  }
 
   ngOnInit() {
-    this.userSubscription = this.state.user.subscribe((user: User) => {
-      this.user = user;
-    });
-
     this.route.queryParams.subscribe((queryParams: Params) => {
       const articleFilterUpdate = {
         tag: queryParams.tag,
@@ -31,10 +25,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       this.state.updateArticleFilter(articleFilterUpdate);
     });
-  }
-
-  ngOnDestroy() {
-    this.userSubscription.unsubscribe();
   }
 
   getFilterTag(): string {

@@ -10,8 +10,8 @@ import { User } from '../model/user.model';
 })
 export class ApiService {
 
-  API_ROOT = 'https://conduit.productionready.io/api';
-  // API_ROOT = 'http://localhost:4000/api'
+  // API_ROOT = 'https://conduit.productionready.io/api';
+  API_ROOT = 'http://localhost:4000/api';
 
   constructor(private http: HttpClient) { }
 
@@ -66,6 +66,7 @@ export class ApiService {
 
   getArticles(params: any): Observable<ArticleList> {
     const uri = '/articles' + (params.feed ? '/feed' : '');
+    delete params.feed;
     return this.http.get<ArticleList>(this.API_ROOT + uri, { params, headers: this.authHeader() });
   }
 

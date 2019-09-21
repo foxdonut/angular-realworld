@@ -34,7 +34,7 @@ export class CredentialsComponent implements OnInit {
     }, {});
     this.api[this.options.method]({ user: params }).subscribe(
       (response: any) => {
-        this.state.user.next(response.user);
+        this.state.user = response.user; // FIXME
         this.api.setToken(response.user.token);
         this.router.navigate(['/']);
       },

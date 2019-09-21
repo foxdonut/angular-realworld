@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import mergerino from 'mergerino';
 import { ArticleFilter } from '../model/article-filter.model';
 import { User } from '../model/user.model';
@@ -9,6 +9,8 @@ import { ApiService } from '../api/api.service';
   providedIn: 'root'
 })
 export class StateService {
+  user: User;
+
   articleFilter = new BehaviorSubject<ArticleFilter>({
     limit: 10,
     offset: 0,
@@ -16,12 +18,12 @@ export class StateService {
     feed: false
   });
 
-  user = new BehaviorSubject<User>(null);
+  constructor(private api: ApiService) { }
 
-  constructor(private api: ApiService) {
-    this.api.getUser().then((user: User) => {
-      this.user.next(user);
-    });
+  async load(): Promise<User> {
+    const user = await this.api.getUser();
+    this.user = user;
+    return user;
   }
 
   getArticleFilter() {
