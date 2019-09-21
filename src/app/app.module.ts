@@ -21,7 +21,6 @@ import { ProfileFavoritesComponent } from './profile/profile-favorites/profile-f
 import { ProfileAuthorComponent } from './profile/profile-author/profile-author.component';
 import { ProfileContentComponent } from './profile/profile-content/profile-content.component';
 import { WithUserComponent } from './with-user/with-user.component';
-import { init } from './initial/initial';
 import { StateService } from './state/state.service';
 
 @NgModule({
@@ -50,8 +49,10 @@ import { StateService } from './state/state.service';
     HttpClientModule,
     ReactiveFormsModule
   ],
+
   providers: [
-    { provide: APP_INITIALIZER, multi: true, useFactory: init, deps: [StateService] }
+    { provide: APP_INITIALIZER, multi: true, deps: [StateService],
+      useFactory: (state: StateService) => () => state.load() }
   ],
   bootstrap: [AppComponent]
 })
