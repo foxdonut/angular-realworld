@@ -86,9 +86,10 @@ export class ApiService {
     return this.http.delete(this.API_ROOT + `/articles/${slug}/comments/${id}`);
   }
 
-  publishArticle(slug: string, body: string): Observable<any> {
-    const method = slug ? this.http.put : this.http.post;
-    return method(this.API_ROOT + '/articles' + (slug ? '/' + slug : ''), body);
+  publishArticle(slug: string, body: any): Observable<any> {
+    return slug
+      ? this.http.put(this.API_ROOT + `/articles/${slug}`, body, { headers: this.authHeader() })
+      : this.http.post(this.API_ROOT + '/articles', body, { headers: this.authHeader() });
   }
 
   unpublishArticle(slug: string): Observable<any> {
