@@ -20,8 +20,7 @@
       </div>
     </div>
     <div class="preview-link">
-      <!-- router.toPath(Route.ArticleDetail({ slug: article.slug })) -->
-      <a class="preview-link" href="#">
+      <a [routerLink]="['/article', article.slug]" class="preview-link">
         <h1>{{ article.title }}</h1>
         <p>{{ article.description }}</p>
         <span>Read more...</span>

@@ -1,1 +1,132 @@
-<p>article-detail works!</p>
+<ng-template #authorMeta>
+  <a
+    class="btn btn-outline-secondary btn-sm"
+    [routerLink]="['/editor', article.slug]">
+    <i class="ion-edit"></i>
+    Edit Article
+  </a>
+  <button class="btn btn-outline-danger btn-sm" type="button">
+    <i class="ion-trash-a"></i>
+    Delete Article
+  </button>
+</ng-template>
+
+<ng-template #nonAuthorMeta>
+  <button
+    class="btn btn-sm"
+    [ngClass]="{ 'btn-outline-secondary': !article.author.following, 'btn-secondary': article.author.following }">
+    onClick="article.author.following
+        ? () => actions.unfollowUser(state, article.author.username, routing)
+        : () => actions.followUser(state, article.author.username, routing)">
+    <i class="ion-plus-round">
+      {{ article.author.following ? ' Unfollow ' : ' Follow ' }}
+      {{ article.author.username }}
+    </i>
+  </button>
+  <button
+    class="btn btn-sm"
+    [ngClass]="{ 'btn-outline-primary': !article.favorited, 'btn-primary': article.favorited }">
+    onClick="article.favorited
+      ? () => actions.unfavoriteArticle(state, article.slug)
+      : () => actions.favoriteArticle(state, article.slug)">
+    <i class="ion-heart">
+      {{ article.favorited ? ' Unfavorite' : ' Favorite' }}
+      Article
+      <span class="counter">({{ article.favoritesCount }})</span>
+    </i>
+  </button>
+</ng-template>
+
+<ng-template #articleMeta>
+  <div class="article-meta">
+    <a [routerLink]="['/profile', article.author.username]">
+      <img [src]="article.author.image || defaultImage">
+    </a>
+    <div class="info">
+      <a class="author" [routerLink]="['/profile', article.author.username]">
+        {{ article.author.username }}
+      </a>
+      <span class="date">{{ article.createdAt | date }}</span>
+    </div>
+  thrush(
+    article,
+    isAuthor(username, article) ? authorMeta(actions) : nonAuthorMeta(state, actions, routing)
+  )
+  </div>
+</ng-template>
+
+<div class="article-page">
+  <div *ngIf="!loading" class="banner">
+    <div class="container">
+      <h1>{{ article.title }}</h1>
+      <ng-template [ngTemplateOutlet]="articleMeta"></ng-template>
+    </div>
+  </div>
+  <div class="container page">
+    <div class="row article-content">
+      <div class="col-md-12">
+        <span *ngIf="loading">Loading...</span>
+        <ng-template [ngIf]="!loading">
+          <h2>{{ article.description }}</h2>
+          <div class="tag-list">
+            <a
+              *ngFor="let tag of article.tagList"
+              class="tag-pill tag-default"
+              [routerLink]="['/']"
+              [queryParams]="{ tag: tag }">{{ tag }}</a>
+          </div>
+          <p></p>
+          <!-- ["p", { innerHTML: marked(article.body, { sanitize: true }) }] -->
+        </ng-template>
+      </div>
+    </div>
+      <ng-template [ngIf]="!loading">
+        <hr>
+        <div class="article-actions">
+          <!-- articleMeta(state, actions, routing, article, username)] -->
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-md-8 offset-md-2">
+            <form *ngIf="getUser()" [formGroup]="articleForm" class="card comment-form">
+              <div class="card-block">
+                <textarea
+                  class="form-control"
+                  placeholder="Write a comment..."
+                  rows="3">
+                </textarea>
+              </div>
+              <div class="card-footer">
+                <img class="comment-author-img" [src]="getUser().image || defaultImage">
+                <button class="btn btn-sm btn-primary">
+                  Post Comment
+                </button>
+              </div>
+            </form>
+            <p *ngIf="!getUser()">
+              <a [routerLink]="['/login']">Sign in</a>
+              or
+              <a [routerLink]="['/register']">sign up</a>
+              to add comments on this article.
+            </p>
+            <div *ngFor="let comment of comments" class="card">
+              <div class="card-block">
+                <p class="card-text">{{ comment.body }}</p>
+              </div>
+              <div class="card-footer">
+                <a class="comment-author" [routerLink]="['/profile', comment.author.username]">
+                  <img class="comment-author-img" [src]="comment.author.image || defaultImage">
+                </a>
+                <a class="comment-author" [routerLink]="['/profile', comment.author.username]">
+                  {{ comment.author.username }}
+                </a>
+                <span class="date-posted">{{ comment.createdAt | date }}</span>
+                <span *ngIf="getUser() && getUser().username === comment.author.username" class="mod-options">
+                  <i class="ion-trash-a" click="deleteComment(article.slug, comment.id)"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-template>
+  </div>
+</div>

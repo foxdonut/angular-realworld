@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'article/:slug', component: ArticleDetailComponent },
   { path: 'editor', component: ArticleEditComponent },
+  { path: 'editor/:slug', component: ArticleEditComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'profile/:username', component: ProfileComponent, children: [
     { path: '', component: ProfileAuthorComponent },

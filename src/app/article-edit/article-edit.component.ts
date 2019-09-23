@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 export class ArticleEditComponent implements OnInit {
   articleForm: FormGroup;
   article: Article;
+  tagList: string[] = [];
 
   constructor(private api: ApiService, private router: Router) { }
 
@@ -19,17 +20,26 @@ export class ArticleEditComponent implements OnInit {
     this.article = { title: null, description: null, body: null, tagList: [], author: null,
       createdAt: null, updatedAt: null, slug: null, favorited: false, favoritesCount: 0 };
 
+    const tags = new FormControl();
+
     this.articleForm = new FormGroup({
       title: new FormControl(),
       description: new FormControl(),
       body: new FormControl(),
-      tags: new FormControl()
+      tags
+    });
+
+    tags.valueChanges.subscribe(value => {
+      this.tagList = value
+        .split(',')
+        .map((tag: string) => tag.trim())
+        .filter((tag: string) => tag.length > 0);
     });
   }
 
   publishArticle() {
     const article = this.articleForm.value;
-    article.tagList = (article.tags || '').split(',').map(tag => tag.trim());
+    article.tagList = this.tagList;
     delete article.tags;
 
     this.api.publishArticle(null, { article }).subscribe(() => {

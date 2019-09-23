@@ -7,6 +7,7 @@ import { Article } from '../model/article.model';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { WithUserComponent } from '../with-user/with-user.component';
+import { defaultImage } from '../model/constants.model';
 
 @Component({
   selector: 'app-article-list',
@@ -14,8 +15,7 @@ import { WithUserComponent } from '../with-user/with-user.component';
   styles: []
 })
 export class ArticleListComponent extends WithUserComponent implements OnInit, OnDestroy {
-  // FIXME: duplicate code
-  defaultImage = 'https://static.productionready.io/images/smiley-cyrus.jpg';
+  defaultImage: string;
   articleFilterSubscription: Subscription;
 
   loading = true;
@@ -27,6 +27,8 @@ export class ArticleListComponent extends WithUserComponent implements OnInit, O
   }
 
   ngOnInit() {
+    this.defaultImage = defaultImage;
+
     this.articleFilterSubscription = this.state.articleFilter.subscribe((filter: ArticleFilter) => {
       console.log('- filter changed:', JSON.stringify(filter));
       this.loading = true;

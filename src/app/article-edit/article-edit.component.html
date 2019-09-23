@@ -29,7 +29,7 @@
                 type="text" class="form-control"
                 placeholder="Enter tags" formControlName="tags">
               <div class="tag-list">
-                <!-- defaultTo([], article.tagList).map(tag => ["span.tag-pill.tag-default", tag]) -->
+                <span *ngFor="let tag of tagList" class="tag-pill tag-default">{{ tag }}</span>
               </div>
             </fieldset>
             <button class="btn btn-lg pull-xs-right btn-primary">
