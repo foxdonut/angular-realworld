@@ -22,6 +22,7 @@ import { ProfileAuthorComponent } from './profile/profile-author/profile-author.
 import { ProfileContentComponent } from './profile/profile-content/profile-content.component';
 import { WithUserComponent } from './with-user/with-user.component';
 import { StateService } from './state/state.service';
+import { MarkdownPipe } from './pipes/markdown.pipe';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { StateService } from './state/state.service';
     ProfileFavoritesComponent,
     ProfileAuthorComponent,
     ProfileContentComponent,
-    WithUserComponent
+    WithUserComponent,
+    MarkdownPipe
   ],
   imports: [
     BrowserModule,

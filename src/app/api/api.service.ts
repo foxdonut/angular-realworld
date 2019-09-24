@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Profile } from '../model/profile.model';
 import { ArticleList } from '../model/article-list.model';
 import { User } from '../model/user.model';
+import { Article } from '../model/article.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
 
-  // API_ROOT = 'https://conduit.productionready.io/api';
-  API_ROOT = 'http://localhost:4000/api';
+  API_ROOT = 'https://conduit.productionready.io/api';
+  // API_ROOT = 'http://localhost:4000/api';
 
   constructor(private http: HttpClient) { }
 
@@ -70,8 +72,8 @@ export class ApiService {
     return this.http.get<ArticleList>(this.API_ROOT + uri, { params, headers: this.authHeader() });
   }
 
-  getArticle(slug: string): Observable<any> {
-    return this.http.get(this.API_ROOT + `/articles/${slug}`);
+  getArticle(slug: string): Observable<Article> {
+    return this.http.get(this.API_ROOT + `/articles/${slug}`).pipe(map((response: any) => response.article));
   }
 
   getComments(slug: string): Observable<any> {
@@ -133,23 +135,16 @@ export class ApiService {
   getProfile(username: string): Observable<Profile> {
     return this.http.get(this.API_ROOT + `/profiles/${username}`) as Observable<Profile>;
   }
-  /*
-  export const profileApi = {
-    update: body => request('/user', { body, method: 'PUT' }),
 
-    follow: username => request(`/profiles/${username}/follow`, { method: 'POST' }),
-
-    unfollow: username => request(`/profiles/${username}/follow`, { method: 'DELETE' })
+  updateProfile(body: any): Observable<any> {
+    return this.http.put(this.API_ROOT + '/user', body);
   }
 
-  export const loadArticles = params =>
-    Promise.all([articlesApi.getList(params), popularTagsApi.getList()]).then(([articles, tags]) =>
-      Object.assign(articles, tags)
-    )
+  followUser(username: string): Observable<any> {
+    return this.http.post(this.API_ROOT + `/profiles/${username}/follow`, null);
+  }
 
-  export const loadArticle = ({ slug }) =>
-    Promise.all([articlesApi.getSingle(slug), articlesApi.getComments(slug)]).then(
-      ([article, comments]) => Object.assign(article, comments)
-    )
-  */
+  unfollowUser(username: string): Observable<any> {
+    return this.http.delete(this.API_ROOT + `/profiles/${username}/follow`);
+  }
 }

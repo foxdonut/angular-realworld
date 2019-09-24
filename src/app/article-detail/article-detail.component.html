@@ -14,26 +14,24 @@
 <ng-template #nonAuthorMeta>
   <button
     class="btn btn-sm"
-    [ngClass]="{ 'btn-outline-secondary': !article.author.following, 'btn-secondary': article.author.following }">
+    [ngClass]="{ 'btn-outline-secondary': !article.author.following, 'btn-secondary': article.author.following }"
     onClick="article.author.following
         ? () => actions.unfollowUser(state, article.author.username, routing)
         : () => actions.followUser(state, article.author.username, routing)">
-    <i class="ion-plus-round">
-      {{ article.author.following ? ' Unfollow ' : ' Follow ' }}
-      {{ article.author.username }}
-    </i>
+    <i class="ion-plus-round"></i>
+    {{ article.author.following ? ' Unfollow ' : ' Follow ' }}
+    {{ article.author.username }}
   </button>
   <button
     class="btn btn-sm"
-    [ngClass]="{ 'btn-outline-primary': !article.favorited, 'btn-primary': article.favorited }">
+    [ngClass]="{ 'btn-outline-primary': !article.favorited, 'btn-primary': article.favorited }"
     onClick="article.favorited
       ? () => actions.unfavoriteArticle(state, article.slug)
       : () => actions.favoriteArticle(state, article.slug)">
-    <i class="ion-heart">
-      {{ article.favorited ? ' Unfavorite' : ' Favorite' }}
-      Article
-      <span class="counter">({{ article.favoritesCount }})</span>
-    </i>
+    <i class="ion-heart"></i>
+    {{ article.favorited ? ' Unfavorite' : ' Favorite' }}
+    Article
+    <span class="counter">({{ article.favoritesCount }})</span>
   </button>
 </ng-template>
 
@@ -48,10 +46,14 @@
       </a>
       <span class="date">{{ article.createdAt | date }}</span>
     </div>
-  thrush(
-    article,
-    isAuthor(username, article) ? authorMeta(actions) : nonAuthorMeta(state, actions, routing)
-  )
+    <ng-template [ngIf]="article.author.username === getUser().username" [ngIfElse]="nonAuthor">
+      <ng-container *ngTemplateOutlet="authorMeta">
+      </ng-container>
+    </ng-template>
+    <ng-template #nonAuthor>
+      <ng-container *ngTemplateOutlet="nonAuthorMeta">
+      </ng-container>
+    </ng-template>
   </div>
 </ng-template>
 
@@ -59,7 +61,7 @@
   <div *ngIf="!loading" class="banner">
     <div class="container">
       <h1>{{ article.title }}</h1>
-      <ng-template [ngTemplateOutlet]="articleMeta"></ng-template>
+      <ng-container *ngTemplateOutlet="articleMeta"></ng-container>
     </div>
   </div>
   <div class="container page">
@@ -75,24 +77,24 @@
               [routerLink]="['/']"
               [queryParams]="{ tag: tag }">{{ tag }}</a>
           </div>
-          <p></p>
-          <!-- ["p", { innerHTML: marked(article.body, { sanitize: true }) }] -->
+          <p [innerHTML]="article.body | markdown"></p>
         </ng-template>
       </div>
     </div>
       <ng-template [ngIf]="!loading">
         <hr>
         <div class="article-actions">
-          <!-- articleMeta(state, actions, routing, article, username)] -->
+          <ng-container *ngTemplateOutlet="articleMeta"></ng-container>
         </div>
         <div class="row">
           <div class="col-xs-12 col-md-8 offset-md-2">
-            <form *ngIf="getUser()" [formGroup]="articleForm" class="card comment-form">
+            <form *ngIf="getUser()" [formGroup]="commentForm" class="card comment-form">
               <div class="card-block">
                 <textarea
                   class="form-control"
                   placeholder="Write a comment..."
-                  rows="3">
+                  rows="3"
+                  formControlName="comment">
                 </textarea>
               </div>
               <div class="card-footer">
