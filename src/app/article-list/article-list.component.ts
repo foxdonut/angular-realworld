@@ -47,6 +47,9 @@ export class ArticleListComponent extends WithUserComponent implements OnInit, O
 
   onToggleArticleFavorite(article: Article): void {
     if (this.getUser()) {
+      this.api.toggleFavoriteArticle(article).subscribe((updatedArticle: Article) => {
+        this.state.updateArticleFilter({});
+      });
     } else {
       this.router.navigate(['/login']);
     }

@@ -14,6 +14,7 @@ export class HomeComponent extends WithUserComponent implements OnInit {
   }
 
   ngOnInit() {
+    // FIXME: duplicate code
     this.route.queryParams.subscribe((queryParams: Params) => {
       const articleFilterUpdate = {
         tag: queryParams.tag,

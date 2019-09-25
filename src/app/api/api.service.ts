@@ -29,10 +29,10 @@ export class ApiService {
     localStorage.removeItem('jwt');
   }
 
-  private authHeader(): any {
+  getAuthorization(): string {
     return this.getToken()
-      ? { Authorization: 'Token ' + this.getToken() }
-      : {};
+      ? 'Token ' + this.getToken()
+      : '';
   }
 
   /*
@@ -69,11 +69,12 @@ export class ApiService {
   getArticles(params: any): Observable<ArticleList> {
     const uri = '/articles' + (params.feed ? '/feed' : '');
     delete params.feed;
-    return this.http.get<ArticleList>(this.API_ROOT + uri, { params, headers: this.authHeader() });
+    return this.http.get<ArticleList>(this.API_ROOT + uri, { params });
   }
 
   getArticle(slug: string): Observable<Article> {
-    return this.http.get(this.API_ROOT + `/articles/${slug}`).pipe(map((response: any) => response.article));
+    return this.http.get(this.API_ROOT + `/articles/${slug}`)
+      .pipe(map((response: any) => response.article));
   }
 
   getComments(slug: string): Observable<any> {
@@ -90,20 +91,20 @@ export class ApiService {
 
   publishArticle(slug: string, body: any): Observable<any> {
     return slug
-      ? this.http.put(this.API_ROOT + `/articles/${slug}`, body, { headers: this.authHeader() })
-      : this.http.post(this.API_ROOT + '/articles', body, { headers: this.authHeader() });
+      ? this.http.put(this.API_ROOT + `/articles/${slug}`, body)
+      : this.http.post(this.API_ROOT + '/articles', body);
   }
 
   unpublishArticle(slug: string): Observable<any> {
     return this.http.delete(this.API_ROOT + `/articles/${slug}`);
   }
 
-  favoriteArticle(slug: string): Observable<any> {
-    return this.http.post(this.API_ROOT + `/articles/${slug}/favorite`, null);
-  }
-
-  unfavoriteArticle(slug: string): Observable<any> {
-    return this.http.delete(this.API_ROOT + `/articles/${slug}/favorite`);
+  toggleFavoriteArticle(article: Article): Observable<Article> {
+    const slug = article.slug;
+    return (article.favorited
+      ? this.http.delete(this.API_ROOT + `/articles/${slug}/favorite`)
+      : this.http.post(this.API_ROOT + `/articles/${slug}/favorite`, null)
+    ).pipe(map((response: any) => response.article));
   }
 
   register(body: any): Observable<any> {
@@ -117,7 +118,7 @@ export class ApiService {
   getUser(): Promise<User> {
     return new Promise<User>((resolve, reject) => {
       if (this.getToken()) {
-        return this.http.get(this.API_ROOT + '/user', { headers: this.authHeader() })
+        return this.http.get(this.API_ROOT + '/user')
           .subscribe(
             (user: any) => resolve(user.user),
             reject

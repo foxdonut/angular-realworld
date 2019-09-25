@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -23,6 +23,8 @@ import { ProfileContentComponent } from './profile/profile-content/profile-conte
 import { WithUserComponent } from './with-user/with-user.component';
 import { StateService } from './state/state.service';
 import { MarkdownPipe } from './pipes/markdown.pipe';
+import { ApiService } from './api/api.service';
+import { HeadersInterceptor } from './api/headers.interceptor';
 
 @NgModule({
   declarations: [
@@ -54,7 +56,9 @@ import { MarkdownPipe } from './pipes/markdown.pipe';
 
   providers: [
     { provide: APP_INITIALIZER, multi: true, deps: [StateService],
-      useFactory: (state: StateService) => () => state.load() }
+      useFactory: (state: StateService) => () => state.load() },
+    { provide: HTTP_INTERCEPTORS, multi: true, deps: [ApiService],
+      useClass: HeadersInterceptor }
   ],
   bootstrap: [AppComponent]
 })
