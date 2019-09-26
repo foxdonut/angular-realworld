@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Article } from '../model/article.model';
 import { ApiService } from '../api/api.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-article-edit',
@@ -11,21 +11,22 @@ import { Router } from '@angular/router';
 })
 export class ArticleEditComponent implements OnInit {
   articleForm: FormGroup;
-  article: Article;
-  tagList: string[] = [];
+  tagList: string[];
+  slug: string;
 
-  constructor(private api: ApiService, private router: Router) { }
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.article = { title: null, description: null, body: null, tagList: [], author: null,
-      createdAt: null, updatedAt: null, slug: null, favorited: false, favoritesCount: 0 };
+    const article: Article = this.route.snapshot.data.article || {};
+    this.slug = article.slug;
+    this.tagList = article.tagList || [];
 
-    const tags = new FormControl();
+    const tags = new FormControl(this.tagList.join(', '));
 
     this.articleForm = new FormGroup({
-      title: new FormControl(),
-      description: new FormControl(),
-      body: new FormControl(),
+      title: new FormControl(article.title),
+      description: new FormControl(article.description),
+      body: new FormControl(article.body),
       tags
     });
 
@@ -42,7 +43,7 @@ export class ArticleEditComponent implements OnInit {
     article.tagList = this.tagList;
     delete article.tags;
 
-    this.api.publishArticle(null, { article }).subscribe(() => {
+    this.api.publishArticle(this.slug, { article }).subscribe(() => {
       this.router.navigate(['/']);
     });
   }

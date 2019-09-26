@@ -4,6 +4,8 @@ import mergerino from 'mergerino';
 import { ArticleFilter } from '../model/article-filter.model';
 import { User } from '../model/user.model';
 import { ApiService } from '../api/api.service';
+import { Article } from '../model/article.model';
+import { Profile } from '../model/profile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +34,18 @@ export class StateService {
 
   updateArticleFilter(update: ArticleFilter) {
     this.articleFilter.next(mergerino({}, this.articleFilter.getValue(), update));
+  }
+
+  toggleFavoriteArticle(article: Article) {
+    this.api.toggleFavoriteArticle(article).subscribe((updatedArticle: Article) => {
+      article.favorited = updatedArticle.favorited;
+      article.favoritesCount = updatedArticle.favoritesCount;
+    });
+  }
+
+  toggleFollowProfile(profile: Profile) {
+    this.api.toggleFollowProfile(profile).subscribe((updatedProfile: Profile) => {
+      profile.following = updatedProfile.following;
+    });
   }
 }

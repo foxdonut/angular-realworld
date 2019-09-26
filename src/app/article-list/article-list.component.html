@@ -13,7 +13,7 @@
         <button
           class="btn btn-sm"
           [ngClass]="{ 'btn-primary': article.favorited, 'btn-outline-primary': !article.favorited }"
-          (click)="onToggleArticleFavorite(article)">
+          (click)="onToggleFavoriteArticle(article)">
           <i class="ion-heart"></i>
           <span> {{ article.favoritesCount }}</span>
         </button>

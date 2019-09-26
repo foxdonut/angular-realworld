@@ -9,6 +9,7 @@ import { ProfileFavoritesComponent } from './profile/profile-favorites/profile-f
 import { ProfileAuthorComponent } from './profile/profile-author/profile-author.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ArticleEditComponent } from './article-edit/article-edit.component';
+import { ArticleResolver } from './resolvers/article.resolver';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,7 +17,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'article/:slug', component: ArticleDetailComponent },
   { path: 'editor', component: ArticleEditComponent },
-  { path: 'editor/:slug', component: ArticleEditComponent },
+  { path: 'editor/:slug', component: ArticleEditComponent, resolve: { article: ArticleResolver } },
   { path: 'settings', component: SettingsComponent },
   { path: 'profile/:username', component: ProfileComponent, children: [
     { path: '', component: ProfileAuthorComponent },

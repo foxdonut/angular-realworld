@@ -6,6 +6,7 @@ import { Profile } from '../model/profile.model';
 import { ArticleList } from '../model/article-list.model';
 import { User } from '../model/user.model';
 import { Article } from '../model/article.model';
+import { Comment } from '../model/comment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -77,12 +78,13 @@ export class ApiService {
       .pipe(map((response: any) => response.article));
   }
 
-  getComments(slug: string): Observable<any> {
-    return this.http.get(this.API_ROOT + `/articles/${slug}/comments`);
+  getComments(slug: string): Observable<Comment[]> {
+    return this.http.get(this.API_ROOT + `/articles/${slug}/comments`)
+      .pipe(map((response: any) => response.comments));
   }
 
   addComment(slug: string, body: string): Observable<any> {
-    return this.http.post(this.API_ROOT + `/articles/${slug}/comments`, body);
+    return this.http.post(this.API_ROOT + `/articles/${slug}/comments`, { comment: { body } });
   }
 
   deleteComment(slug: string, id: string): Observable<any> {
@@ -134,18 +136,19 @@ export class ApiService {
   }
 
   getProfile(username: string): Observable<Profile> {
-    return this.http.get(this.API_ROOT + `/profiles/${username}`) as Observable<Profile>;
+    return this.http.get(this.API_ROOT + `/profiles/${username}`)
+      .pipe(map((response: any) => response.profile));
   }
 
   updateProfile(body: any): Observable<any> {
     return this.http.put(this.API_ROOT + '/user', body);
   }
 
-  followUser(username: string): Observable<any> {
-    return this.http.post(this.API_ROOT + `/profiles/${username}/follow`, null);
-  }
-
-  unfollowUser(username: string): Observable<any> {
-    return this.http.delete(this.API_ROOT + `/profiles/${username}/follow`);
+  toggleFollowProfile(profile: Profile): Observable<Profile> {
+    const username = profile.username;
+    return (profile.following
+      ? this.http.delete(this.API_ROOT + `/profiles/${username}/follow`)
+      : this.http.post(this.API_ROOT + `/profiles/${username}/follow`, null)
+    ).pipe(map((response: any) => response.profile));
   }
 }

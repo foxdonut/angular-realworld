@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Profile } from '../model/profile.model';
-import { Params, ActivatedRoute } from '@angular/router';
+import { Params, ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../api/api.service';
 import { StateService } from '../state/state.service';
 import { WithUserComponent } from '../with-user/with-user.component';
@@ -17,7 +17,8 @@ export class ProfileComponent extends WithUserComponent implements OnInit {
   profile: Profile;
   defaultImage: string;
 
-  constructor(private route: ActivatedRoute, private api: ApiService, state: StateService) {
+  constructor(private router: Router, private route: ActivatedRoute,
+              private api: ApiService, state: StateService) {
     super(state);
   }
 
@@ -38,5 +39,13 @@ export class ProfileComponent extends WithUserComponent implements OnInit {
   isCurrentUser() {
     const user = this.getUser();
     return user && user.username === this.username;
+  }
+
+  onToggleFollowProfile(profile: Profile): void {
+    if (this.getUser()) {
+      this.state.toggleFollowProfile(profile);
+    } else {
+      this.router.navigate(['/login']);
+    }
   }
 }

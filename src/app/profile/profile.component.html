@@ -17,7 +17,7 @@
             </ng-template>
             <ng-template [ngIf]="!isCurrentUser()">
               <button class="btn btn-sm btn-outline-secondary action-btn"
-                      (click)="onToggleFollow(username)">
+                      (click)="onToggleFollowProfile(profile)">
                 <i class="ion-plus-round"></i>
                 {{ profile.following ? ' Unfollow ' : ' Follow '}}
                 {{ username }}

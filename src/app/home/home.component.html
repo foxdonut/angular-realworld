@@ -14,17 +14,28 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-9">
+        TODO:
+        <ul>
+          <li>active links: Your Feed, Global Feed, Home, vs pagination</li>
+        </ul>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-9">
         <div class="feed-toggle">
           <ul class="nav nav-pills outline-active">
             <li *ngIf="getUser()" class="nav-item">
-              <a class="nav-link" [ngClass]="{ active: getFilterFeed() }"
+              <a class="nav-link" routerLinkActive="active"
                  [routerLink]="['.']" [queryParams]="{ feed: true }">
                 Your Feed
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" [ngClass]="{ active: !getFilterTag() && !getFilterFeed() }"
-                 [routerLink]="['.']">
+              <a
+                class="nav-link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                [routerLink]="['.']">
                 Global Feed
               </a>
             </li>

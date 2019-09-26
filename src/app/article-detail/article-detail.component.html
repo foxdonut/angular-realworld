@@ -15,9 +15,7 @@
   <button
     class="btn btn-sm"
     [ngClass]="{ 'btn-outline-secondary': !article.author.following, 'btn-secondary': article.author.following }"
-    onClick="article.author.following
-        ? () => actions.unfollowUser(state, article.author.username, routing)
-        : () => actions.followUser(state, article.author.username, routing)">
+    (click)="onToggleFollowProfile(article.author)">
     <i class="ion-plus-round"></i>
     {{ article.author.following ? ' Unfollow ' : ' Follow ' }}
     {{ article.author.username }}
@@ -25,9 +23,7 @@
   <button
     class="btn btn-sm"
     [ngClass]="{ 'btn-outline-primary': !article.favorited, 'btn-primary': article.favorited }"
-    onClick="article.favorited
-      ? () => actions.unfavoriteArticle(state, article.slug)
-      : () => actions.favoriteArticle(state, article.slug)">
+    (click)="onToggleFavoriteArticle(article)">
     <i class="ion-heart"></i>
     {{ article.favorited ? ' Unfavorite' : ' Favorite' }}
     Article
@@ -88,13 +84,13 @@
         </div>
         <div class="row">
           <div class="col-xs-12 col-md-8 offset-md-2">
-            <form *ngIf="getUser()" [formGroup]="commentForm" class="card comment-form">
+            <form *ngIf="getUser()" [formGroup]="commentForm" (ngSubmit)="onPostComment()" class="card comment-form">
               <div class="card-block">
                 <textarea
                   class="form-control"
                   placeholder="Write a comment..."
                   rows="3"
-                  formControlName="comment">
+                  formControlName="body">
                 </textarea>
               </div>
               <div class="card-footer">
@@ -118,12 +114,13 @@
                 <a class="comment-author" [routerLink]="['/profile', comment.author.username]">
                   <img class="comment-author-img" [src]="comment.author.image || defaultImage">
                 </a>
-                <a class="comment-author" [routerLink]="['/profile', comment.author.username]">
+                <a class="comment-author" [routerLink]="['/profile', comment.author.username]"
+                   style="margin-left: 4px">
                   {{ comment.author.username }}
                 </a>
                 <span class="date-posted">{{ comment.createdAt | date }}</span>
                 <span *ngIf="getUser() && getUser().username === comment.author.username" class="mod-options">
-                  <i class="ion-trash-a" click="deleteComment(article.slug, comment.id)"></i>
+                  <i class="ion-trash-a" (click)="onDeleteComment(article.slug, comment.id)"></i>
                 </span>
               </div>
             </div>
