@@ -140,8 +140,9 @@ export class ApiService {
       .pipe(map((response: any) => response.profile));
   }
 
-  updateProfile(body: any): Observable<any> {
-    return this.http.put(this.API_ROOT + '/user', body);
+  updateUser(user: any): Observable<User> {
+    return this.http.put(this.API_ROOT + '/user', { user })
+      .pipe(map((response: any) => response.user));
   }
 
   toggleFollowProfile(profile: Profile): Observable<Profile> {

@@ -30,7 +30,6 @@ export class ArticleListComponent extends WithUserComponent implements OnInit, O
     this.defaultImage = defaultImage;
 
     this.articleFilterSubscription = this.state.articleFilter.subscribe((filter: ArticleFilter) => {
-      console.log('- filter changed:', JSON.stringify(filter));
       this.loading = true;
 
       this.api.getArticles(filter).subscribe((articleList: ArticleList) => {

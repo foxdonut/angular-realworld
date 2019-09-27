@@ -4,6 +4,7 @@ import { WithUserComponent } from '../with-user/with-user.component';
 import { StateService } from '../state/state.service';
 import { ApiService } from '../api/api.service';
 import { Router } from '@angular/router';
+import { User } from '../model/user.model';
 
 @Component({
   selector: 'app-settings',
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
 })
 export class SettingsComponent extends WithUserComponent implements OnInit {
   settingsForm: FormGroup;
+  errors: string[];
 
   constructor(state: StateService, private api: ApiService, private router: Router) {
     super(state);
@@ -29,11 +31,17 @@ export class SettingsComponent extends WithUserComponent implements OnInit {
     });
   }
 
-  /*
-  const errors = Object.keys(state.settings.errors || {}).map(
-    key => `${key} ${state.settings.errors[key]}`
-  )
-  */
+  onUpdateUser() {
+    this.api.updateUser(this.settingsForm.value).subscribe(
+      (user: User) => {
+        this.state.user = user;
+        this.router.navigate(['/profile', user.username]);
+      },
+      (response: any) => {
+        const errors = response.error.errors;
+        this.errors = Object.keys(errors).map(key => `${key} ${errors[key]}`);
+      });
+  }
 
   logout() {
     this.api.clearToken();
