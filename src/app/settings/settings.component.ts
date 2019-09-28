@@ -39,7 +39,7 @@ export class SettingsComponent extends WithUserComponent implements OnInit {
       },
       (response: any) => {
         const errors = response.error.errors;
-        this.errors = Object.keys(errors).map(key => `${key} ${errors[key]}`);
+        this.errors = Object.keys(errors).map(key => `${key} ${errors[key][0]}`);
       });
   }
 

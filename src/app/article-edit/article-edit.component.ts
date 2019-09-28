@@ -13,6 +13,7 @@ export class ArticleEditComponent implements OnInit {
   articleForm: FormGroup;
   tagList: string[];
   slug: string;
+  errors: string[];
 
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute) { }
 
@@ -43,8 +44,13 @@ export class ArticleEditComponent implements OnInit {
     article.tagList = this.tagList;
     delete article.tags;
 
-    this.api.publishArticle(this.slug, { article }).subscribe(() => {
-      this.router.navigate(['/']);
-    });
+    this.api.publishArticle(this.slug, { article }).subscribe(
+      () => {
+        this.router.navigate(['/']);
+      },
+      (response: any) => {
+        const errors = response.error.errors;
+        this.errors = Object.keys(errors).map(key => `${key} ${errors[key][0]}`);
+      });
   }
 }

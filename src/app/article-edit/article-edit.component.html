@@ -2,26 +2,26 @@
   <div class="container page">
     <div class="row">
       <div class="col-md-10 offset-md-1 col-xs-12">
+        <ul class="error-messages">
+          <li *ngFor="let error of errors">{{ error }}</li>
+        </ul>
         <form [formGroup]="articleForm" (ngSubmit)="publishArticle()">
           <fieldset>
             <fieldset class="form-group">
               <input
                 type="text" class="form-control form-control-lg"
                 placeholder="Article Title" formControlName="title">
-              <!-- fieldErrors title -->
             </fieldset>
             <fieldset class="form-group">
               <input
                 type="text" class="form-control form-control-lg"
                 placeholder="What's this article about?" formControlName="description">
-              <!-- fieldErrors description -->
             </fieldset>
             <fieldset class="form-group">
               <textarea
                 type="text" class="form-control" rows="8"
                 placeholder="Write your article (in markdown)" formControlName="body">
               </textarea>
-              <!-- fieldErrors body -->
             </fieldset>
             <fieldset class="form-group">
               <input
